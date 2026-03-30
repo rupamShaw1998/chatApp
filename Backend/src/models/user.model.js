@@ -17,21 +17,21 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    phone: {
-      type: String,
-    },
-    avatar: {
-      type: String,
-      default: "",
-    },
-    bio: {
-      type: String,
-      default: "",
-    },
-    death_of_birth: {
-      type: Date,
-      default: null,
-    },
+    // phone: {
+    //   type: String,
+    // },
+    // avatar: {
+    //   type: String,
+    //   default: "",
+    // },
+    // bio: {
+    //   type: String,
+    //   default: "",
+    // },
+    // date_of_birth: {
+    //   type: Date,
+    //   default: null,
+    // },
   },
   {
     versionKey: false,
