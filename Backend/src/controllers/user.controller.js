@@ -1,4 +1,5 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 
 const signUp = async (req, res) => {
@@ -22,7 +23,13 @@ const signIn = async (req, res) => {
     if(!isPasswordMatch) {
       return res.status(401).send("Incorrect password !");
     }
-    return res.status(200).send("Successfully signed in");
+    const SECRET_KEY = process.env.SECRET_KEY;
+    const token = jwt.sign({ id: user._id }, SECRET_KEY);
+    return res.status(200).send({token, user: {
+      id: user._id,
+      email: user.email,
+      username: user.username
+    }});
   } catch (error) {
     return res.status(500).send(error);
   }
