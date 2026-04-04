@@ -1,0 +1,29 @@
+.chat {
+  display: flex;
+}
+
+.sidebar {
+  width: 30%;
+  border-right: 1px solid #ccc;
+}
+
+.chat-window {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.right {
+  text-align: right;
+  color: blue;
+}
+
+.left {
+  text-align: left;
+  color: black;
+}

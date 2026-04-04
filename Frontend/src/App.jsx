@@ -1,9 +1,13 @@
 import './App.css'
+import Chat from './pages/chat'
 
 function App() {
 
   return (
-    <div>chat app</div>
+    <>
+      <h2 style={{ textAlign: 'center' }}>RS Chat App</h2>
+      <Chat />
+    </>
   )
 }
 
