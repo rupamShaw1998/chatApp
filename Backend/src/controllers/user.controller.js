@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 
-const signUp = async (req, res) => {
+export const signUp = async (req, res) => {
   try {
     let hashedPassword = await bcrypt.hash(req.body.password, 10);
     let user = await User.create({ ...req.body, password: hashedPassword });
@@ -12,7 +12,7 @@ const signUp = async (req, res) => {
   }
 }
 
-const signIn = async (req, res) => {
+export const signIn = async (req, res) => {
   try {
     let { email, password } = req.body;
     let user = await User.findOne({ email: email });
@@ -35,4 +35,13 @@ const signIn = async (req, res) => {
   }
 }
 
-export { signIn, signUp };
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({
+      _id: { $ne: req.user.id }
+    }).select("-password");
+    return res.status(200).send(users);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}

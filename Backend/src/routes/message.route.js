@@ -1,6 +1,6 @@
 import express from "express";
-import { getMessages, markAsSeen, sendMessage } from "../controllers/message.controller";
-import { authTokenVerification } from "../middleware/auth";
+import { getMessages, markAsSeen, sendMessage } from "../controllers/message.controller.js";
+import { authTokenVerification } from "../middleware/auth.js";
 
 const router = express.Router();
 
