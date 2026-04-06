@@ -21,8 +21,9 @@ const Login = () => {
       if(response.data.token) {
         localStorage.setItem("token", response.data.token);
         navigate("/chat");
+      } else {
+        alert("something went wrong");
       }
-      alert("something went wrong");
     } catch (error) {
       console.log(error);
       alert("something went wrong", error);
@@ -40,6 +41,8 @@ const Login = () => {
       <br /><br />
 
       <button onClick={handleLogin}>Login</button>
+      <br />
+      <a href="/signUp">Sign Up</a>
     </div>
   );
 };

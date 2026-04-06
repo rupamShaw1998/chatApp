@@ -3,6 +3,7 @@ import './App.css'
 import Chat from './pages/chat'
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -13,7 +14,14 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
