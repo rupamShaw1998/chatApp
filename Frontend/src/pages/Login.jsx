@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../redux/slices/authSlice";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -9,6 +11,7 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,6 +23,7 @@ const Login = () => {
       console.log(response);
       if(response.data.token) {
         localStorage.setItem("token", response.data.token);
+        dispatch(setUser(response.data.user));
         navigate("/chat");
       } else {
         alert("something went wrong");
@@ -31,18 +35,14 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="login">
       <h2>Login</h2>
 
       <input name="email" placeholder="Email" onChange={handleChange} />
-      <br /><br />
-
       <input name="password" type="password" placeholder="Password" onChange={handleChange} />
-      <br /><br />
 
       <button onClick={handleLogin}>Login</button>
-      <br />
-      <a href="/signUp">Sign Up</a>
+      <span>Don't have an account? <a href="/signUp">Sign up</a></span>
     </div>
   );
 };

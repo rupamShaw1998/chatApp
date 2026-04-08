@@ -1,3 +1,47 @@
+.app-title {
+  text-align: center;
+  color: white;
+}
+
+.login {
+  padding: 20px 20px 40px;
+  background: white;
+  color: black;
+  border-radius: 15px;
+  width: 250px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.login input {
+  width: 90%;
+  border: none;
+  border-bottom: 2px solid #c8bfbf;
+  padding: 7px 5px;
+}
+
+.login button {
+  background: linear-gradient(to right, #3a91d8, #8946af);
+  width: 94%;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 3px;
+}
+
+.login span {
+  font-size: 11px;
+  color: gray;
+}
+
+.login a {
+  color: rgb(9, 121, 220);
+  text-decoration: none;
+}
+
 .chat {
   display: flex;
 }
@@ -5,6 +49,11 @@
 .sidebar {
   width: 30%;
   border-right: 1px solid #ccc;
+}
+
+.logout {
+  color: red;
+  text-decoration: underline;
 }
 
 .chat-window {

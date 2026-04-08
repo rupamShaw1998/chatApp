@@ -9,7 +9,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <h2 style={{ textAlign: 'center' }}>RS Chat App</h2>
+      <h2 className="app-title">RS Chat App</h2>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />

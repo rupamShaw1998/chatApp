@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import Logout from "./Logout";
 
-const Sidebar = () => {
+const Sidebar = ({ setSelectedUser }) => {
   const [users, setUsers] = useState([]);
+
+  const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -22,11 +26,17 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      {users.map((user, _id) => (
-        <div key={_id} onClick={() => {}}>
-          {user.username}
-        </div>
-      ))}
+      <h3 className="profile">
+        {user.username} <Logout />
+      </h3>
+      <h4>Chats</h4>
+      <div>
+        {users.map((user) => (
+          <div key={user._id} onClick={() => setSelectedUser(user)}>
+            {user.username}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
