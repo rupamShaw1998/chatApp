@@ -26,11 +26,11 @@ const Sidebar = ({ setSelectedUser }) => {
 
   return (
     <div className="sidebar">
-      <h3 className="profile">
-        {user.username} <Logout />
-      </h3>
+      <div className="user">
+        <span>{user.username} </span> <Logout />
+      </div>
       <h4>Chats</h4>
-      <div>
+      <div className="users-container">
         {users.map((user) => (
           <div key={user._id} onClick={() => setSelectedUser(user)}>
             {user.username}

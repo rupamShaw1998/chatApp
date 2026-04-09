@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import { clearUser } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 const Logout = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,9 @@ const Logout = () => {
     <span
       className="logout"
       onClick={onLogout}
+      title="log out"
     >
-      Log out
+      <LogOut size={20} />
     </span>
   )
 }

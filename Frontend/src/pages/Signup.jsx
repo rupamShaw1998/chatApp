@@ -30,20 +30,15 @@ const Signup = () => {
     <div className="login">
       <h4>Sign up</h4>
       <input name="username" placeholder="Username" onChange={handleChange} />
-      <br />
-      <br />
       <input name="email" placeholder="Email" onChange={handleChange} />
-      <br />
-      <br />
       <input
         name="password"
         type="password"
         placeholder="Password"
         onChange={handleChange}
       />
-      <br />
-      <br />
       <button onClick={handleSignup}>Signup</button>
+      <span>Already have an account? <a href="/login">Log in</a></span>
     </div>
   );
 };
