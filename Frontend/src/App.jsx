@@ -4,11 +4,13 @@ import Chat from './pages/chat'
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <h2 className="app-title">RS Chat App</h2>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />

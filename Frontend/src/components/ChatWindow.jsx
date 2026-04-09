@@ -2,19 +2,23 @@ import MessageBubble from "./MessageBubble";
 import { useEffect, useState } from "react";
 import { CircleUserRound, Send } from 'lucide-react'
 import axios from "axios";
+import useAsync from "../hooks/useAsync";
 
 const ChatWindow = ({ selectedUser }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
+  const { loading, run } = useAsync();
 
   useEffect(() => {
     const getChatHistory = async () => {
       try {
         const authToken = localStorage.getItem("token");
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_API_URL}/api/${selectedUser._id}`,
-          { headers: { Authorization: `Bearer ${authToken}` }}
+        const response = await run(() => 
+          axios.get(
+            `${import.meta.env.VITE_BASE_API_URL}/api/${selectedUser._id}`,
+            { headers: { Authorization: `Bearer ${authToken}` }}
+          )
         );
         setMessages(response.data);
       } catch (error) {
@@ -37,7 +41,7 @@ const ChatWindow = ({ selectedUser }) => {
         { headers: { Authorization: `Bearer ${authToken}` }}
       );
       setMessage("");
-      console.log(response);
+      console.log("msg response:", response);
     } catch (error) {
       console.log(error);
     }
@@ -61,8 +65,13 @@ const ChatWindow = ({ selectedUser }) => {
           placeholder="Enter your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={loading}
         />
-        <button className="send-btn" onClick={() => sendMessage()}>
+        <button
+          className="send-btn"
+          onClick={() => sendMessage()}
+          disabled={loading || !message.trim()}
+        >
           <Send size={18} />
         </button>
       </div>

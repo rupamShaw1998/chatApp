@@ -2,19 +2,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Logout from "./Logout";
+import useAsync from "../hooks/useAsync";
 
 const Sidebar = ({ setSelectedUser }) => {
   const [users, setUsers] = useState([]);
 
   const user = useSelector(state => state.auth.user);
 
+  const { loading, run } = useAsync();
+
   useEffect(() => {
     const getUsers = async () => {
       try {
         const authToken = localStorage.getItem("token");
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_API_URL}/api/users`,
-          { headers: { Authorization: `Bearer ${authToken}` }}
+        const response = await run(() => 
+          axios.get(
+            `${import.meta.env.VITE_BASE_API_URL}/api/users`,
+            { headers: { Authorization: `Bearer ${authToken}` }}
+          )
         );
         setUsers(response.data);
       } catch (error) {
@@ -31,11 +36,15 @@ const Sidebar = ({ setSelectedUser }) => {
       </div>
       <h4>Chats</h4>
       <div className="users-container">
-        {users.map((user) => (
-          <div key={user._id} onClick={() => setSelectedUser(user)}>
-            {user.username}
-          </div>
-        ))}
+        {loading ?
+          "Loading users ..."
+          :
+          users.map((user) => (
+            <div key={user._id} onClick={() => setSelectedUser(user)}>
+              {user.username}
+            </div>
+          ))
+        }
       </div>
     </div>
   );
