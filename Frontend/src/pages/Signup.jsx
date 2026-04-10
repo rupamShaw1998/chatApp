@@ -22,12 +22,12 @@ const Signup = () => {
   const handleSignup = async () => {
     try {
       const response = await run(() => axios.post(`${import.meta.env.VITE_BASE_API_URL}/api/signUp`, form));
-      console.log("Sign up repsonse:", response);
-      toast.success("Sign in successful");
+      console.log("Sign up response:", response);
+      toast.success("Signed in successfully");
       navigate("/login");
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong", error);
+      toast.error(error.response.data);
     }
   };
 

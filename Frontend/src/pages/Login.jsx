@@ -34,14 +34,14 @@ const Login = () => {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         dispatch(setUser(response.data.user));
-        toast.success("Login successful")
+        toast.success("Logged in successfully")
         navigate("/chat");
       } else {
         toast.error("Something went wrong");
       }
     } catch (error) {
       console.log(error);
-      toast.error("Login failed");
+      toast.error(error.response.data);
     }
   };
 
@@ -61,7 +61,7 @@ const Login = () => {
         onChange={handleChange}
         disabled={loading}
       />
-      <button onClick={handleLogin} disabled={loading || !form.email.trim() || !form.email.trim()}>
+      <button onClick={handleLogin} disabled={loading || !form.email.trim() || !form.password.trim()}>
         {loading ? "Logging in..." : "Login"}
       </button>
       <span>

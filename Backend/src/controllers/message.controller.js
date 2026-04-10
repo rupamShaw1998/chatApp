@@ -1,16 +1,28 @@
 import { Message } from "../models/message.model.js";
+import { getIO, onlineUsers } from "../sockets/socket.js";
+
+const io = getIO();
 
 export const sendMessage = async (req, res) => {
   try {
     const { receiverId, message } = req.body;
 
-    const newMessage = new Message({
+    const newMessage = await Message.create({
       sender: req.user.id,
       receiver: receiverId,
       message,
     });
 
-    await newMessage.save();
+    const senderSocketId = onlineUsers[req.user.id];
+    const receiverSocketId = onlineUsers[receiverId];
+
+    if(senderSocketId) {
+      io.to(senderSocketId).emit("messageSent", newMessage);
+    }
+
+    if(receiverSocketId) {
+      io.to(receiverSocketId).emit("receiveMessage", newMessage);
+    }
 
     return res.status(201).send(newMessage);
   } catch (error) {
