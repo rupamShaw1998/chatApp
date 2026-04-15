@@ -27,6 +27,7 @@ export const signIn = async (req, res) => {
     const token = jwt.sign({ id: user._id }, SECRET_KEY);
     return res.status(200).send({token, user: {
       id: user._id,
+      _id: user._id,
       email: user.email,
       username: user.username
     }});

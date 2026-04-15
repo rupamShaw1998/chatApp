@@ -15,6 +15,16 @@ export const initSocket = (server) => {
       onlineUsers[userId] = socket.id;
     });
 
+    socket.on("sendMessage", (msg) => {
+      console.log("MESSAGE RECEIVED ON SERVER:", msg);
+
+      const receiverSocketId = onlineUsers[msg.receiver];
+  
+      if (receiverSocketId) {
+        io.to(receiverSocketId).emit("receiveMessage", msg);
+      }
+    });
+
     socket.on("disconnect", () => {
       for (let userId in onlineUsers) {
         if (onlineUsers[userId] === socket.id) {
