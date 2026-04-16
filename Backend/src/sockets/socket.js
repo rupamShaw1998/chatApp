@@ -13,17 +13,18 @@ export const initSocket = (server) => {
 
     socket.on("register", (userId) => {
       onlineUsers[userId] = socket.id;
+      io.emit("onlineUsers", Object.keys(onlineUsers));
     });
 
-    socket.on("sendMessage", (msg) => {
-      console.log("MESSAGE RECEIVED ON SERVER:", msg);
+    // socket.on("sendMessage", (msg) => {
+    //   console.log("MESSAGE RECEIVED ON SERVER:", msg);
 
-      const receiverSocketId = onlineUsers[msg.receiver];
+    //   const receiverSocketId = onlineUsers[msg.receiver];
   
-      if (receiverSocketId) {
-        io.to(receiverSocketId).emit("receiveMessage", msg);
-      }
-    });
+    //   if (receiverSocketId) {
+    //     io.to(receiverSocketId).emit("receiveMessage", msg);
+    //   }
+    // });
 
     socket.on("disconnect", () => {
       for (let userId in onlineUsers) {
@@ -31,6 +32,7 @@ export const initSocket = (server) => {
           delete onlineUsers[userId];
         }
       }
+      io.emit("onlineUsers", Object.keys(onlineUsers));
     });
   });
 

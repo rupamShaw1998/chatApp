@@ -1,10 +1,10 @@
 import { Message } from "../models/message.model.js";
 import { getIO, onlineUsers } from "../sockets/socket.js";
 
-const io = getIO();
-
 export const sendMessage = async (req, res) => {
   try {
+    const io = getIO();
+
     const { receiverId, message } = req.body;
 
     const newMessage = await Message.create({

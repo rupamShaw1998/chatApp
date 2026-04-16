@@ -106,6 +106,12 @@ button:disabled {
   background: #334155;
 }
 
+.online-dot {
+  color: #4caf50;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
 .active-user {
   background: #475569;
 }
@@ -129,6 +135,13 @@ button:disabled {
   align-items: center;
   gap: 10px;
   background: #4c1d95;
+}
+
+.online {
+  color: green;
+  margin-left: 5px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .messages {

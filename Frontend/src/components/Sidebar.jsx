@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Logout from "./Logout";
 import useAsync from "../hooks/useAsync";
 
-const Sidebar = ({ setSelectedUser }) => {
+const Sidebar = ({ setSelectedUser, onlineUsers }) => {
   const [users, setUsers] = useState([]);
 
   const user = useSelector(state => state.auth.user);
@@ -42,6 +42,9 @@ const Sidebar = ({ setSelectedUser }) => {
           users.map((user) => (
             <div key={user._id} onClick={() => setSelectedUser(user)}>
               {user.username}
+              {onlineUsers.includes(user._id) && (
+                <span className="online-dot">●</span>
+              )}
             </div>
           ))
         }

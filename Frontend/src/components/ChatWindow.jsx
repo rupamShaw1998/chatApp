@@ -1,17 +1,19 @@
 import MessageBubble from "./MessageBubble";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CircleUserRound, Send } from 'lucide-react'
 import axios from "axios";
 import useAsync from "../hooks/useAsync";
 import { useSelector } from "react-redux";
 import { socket } from "../socket";
 
-const ChatWindow = ({ selectedUser }) => {
+const ChatWindow = ({ selectedUser, onlineUsers }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
   const { loading, run } = useAsync();
   const user = useSelector(state => state.auth.user);
+
+  const bottomRef = useRef();
 
   useEffect(() => {
     socket.connect();
@@ -54,6 +56,10 @@ const ChatWindow = ({ selectedUser }) => {
     getChatHistory();
   }, [selectedUser]);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const sendMessage = async () => {
     if(!message.trim()) return;
 
@@ -80,8 +86,7 @@ const ChatWindow = ({ selectedUser }) => {
         { headers: { Authorization: `Bearer ${authToken}` }}
       );
 
-      console.log("EMITTING:", newMsg);
-      socket.emit("sendMessage", newMsg);
+      // socket.emit("sendMessage", newMsg);
       console.log("msg response:", response);
     } catch (error) {
       console.log(error);
@@ -94,11 +99,17 @@ const ChatWindow = ({ selectedUser }) => {
       <div className="profile">
         <CircleUserRound size={20} />
         {selectedUser.username}
+        {onlineUsers.includes(selectedUser._id) && (
+          <span className="online">
+            Online
+          </span>
+        )}
       </div>
       <div className="messages">
         {messages.map((msg) => (
           <MessageBubble key={msg._id} msg={msg} />
         ))}
+        <div ref={bottomRef}></div>
       </div>
       <div className="msg-action">
         <input

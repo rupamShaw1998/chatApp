@@ -3,6 +3,7 @@ import { clearUser } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import toast from "react-hot-toast";
+import { socket } from "../socket";
 
 const Logout = () => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const Logout = () => {
 
   const onLogout = () => {
     dispatch(clearUser());
+    socket.disconnect();
     toast.success("Logged out successfully");
     navigate("/");
   };
