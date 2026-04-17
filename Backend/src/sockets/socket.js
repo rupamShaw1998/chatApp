@@ -16,6 +16,20 @@ export const initSocket = (server) => {
       io.emit("onlineUsers", Object.keys(onlineUsers));
     });
 
+    socket.on("typing", ({ senderId, receiverId }) => {
+      const receiverSocket = onlineUsers[receiverId];
+      if(receiverSocket) {
+        io.to(receiverSocket).emit("typing", { senderId });
+      }
+    });
+
+    socket.on("stopTyping", ({ senderId, receiverId }) => {
+      const receiverSocket = onlineUsers[receiverId];
+      if(receiverSocket) {
+        io.to(receiverSocket).emit("stopTyping", { senderId });
+      }
+    });
+
     // socket.on("sendMessage", (msg) => {
     //   console.log("MESSAGE RECEIVED ON SERVER:", msg);
 

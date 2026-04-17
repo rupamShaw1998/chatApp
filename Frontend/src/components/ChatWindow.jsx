@@ -9,6 +9,7 @@ import { socket } from "../socket";
 const ChatWindow = ({ selectedUser, onlineUsers }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [typing, setTyping] = useState(false);
 
   const { loading, run } = useAsync();
   const user = useSelector(state => state.auth.user);
@@ -60,6 +61,45 @@ const ChatWindow = ({ selectedUser, onlineUsers }) => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    socket.on("typing", ({ senderId }) => {
+      if (senderId === selectedUser._id) {
+        setTyping(true);
+      }
+    });
+  
+    socket.on("stopTyping", ({ senderId }) => {
+      if (senderId === selectedUser._id) {
+        setTyping(false);
+      }
+    });
+  
+    return () => {
+      socket.off("typing");
+      socket.off("stopTyping");
+    };
+  }, [selectedUser]);
+
+  let typingTimeout;
+
+  const typingHandler = (e) => {
+    setMessage(e.target.value);
+
+    socket.emit("typing", {
+      senderId: user._id,
+      receiverId: selectedUser._id
+    });
+
+    clearTimeout(typingTimeout);
+
+    typingTimeout = setTimeout(() => {
+      socket.emit("stopTyping", {
+        senderId: user._id,
+        receiverId: selectedUser._id
+      });
+    }, 1000);
+  };
+
   const sendMessage = async () => {
     if(!message.trim()) return;
 
@@ -101,7 +141,7 @@ const ChatWindow = ({ selectedUser, onlineUsers }) => {
         {selectedUser.username}
         {onlineUsers.includes(selectedUser._id) && (
           <span className="online">
-            Online
+            {typing ? "Typing..." : "Online"}
           </span>
         )}
       </div>
@@ -117,7 +157,7 @@ const ChatWindow = ({ selectedUser, onlineUsers }) => {
           className="message-input"
           placeholder="Enter your message..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={typingHandler}
           disabled={loading}
         />
         <button
