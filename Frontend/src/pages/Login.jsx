@@ -65,7 +65,7 @@ const Login = () => {
         {loading ? "Logging in..." : "Login"}
       </button>
       <span>
-        Don't have an account? <a href="/signUp">Sign up</a>
+        Don't have an account? <a href="/signup">Sign up</a>
       </span>
     </div>
   );
